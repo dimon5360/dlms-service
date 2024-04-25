@@ -1,20 +1,24 @@
-use super::{InterfaceIO, ConfigIO};
+use std::thread;
+use std::time::Duration;
 
-struct Tcp {
+use super::ConfigIO;
+
+pub struct Tcp {
     _config: ConfigIO
 }
 
-impl InterfaceIO for Tcp {
-    fn init(&self) {
+impl Tcp {
+    pub fn init(&self) {
 
     }
-    fn run(&self) {
 
+    pub fn run(&self) {
+        thread::sleep(Duration::from_secs(5));        
     }
 }
 
-pub fn new(config: ConfigIO) -> Box<dyn InterfaceIO> {
-    return Box::new(Tcp {
+pub fn new(config: ConfigIO) -> Tcp {
+    return Tcp {
         _config: config,
-    });
+    };
 }

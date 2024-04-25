@@ -8,24 +8,27 @@ pub trait CoreInterface {
     fn run(&self);
 }
 
-
 struct Core {
-    _io: Box<dyn io::InterfaceIO>
+    _io: io::tcp::Tcp
 }
 
 impl CoreInterface for Core {
     fn init(&self) {
         debug!("init service core");
+        self._io.init();
     }
     fn run(&self) {
         debug!("run service core");
-    }
 
+        println!("core running...");
+        self._io.run();
+        println!("core stopping...");
+    }
 }
 
-pub fn new(io: Box<dyn io::InterfaceIO>) -> Box<dyn CoreInterface> {
+pub fn new(io: io::tcp::Tcp) -> Box<dyn CoreInterface> {
     debug!("new application core instance");
     return Box::new(Core {
-        _io: io
-    })
+        _io: io,
+    });
 }

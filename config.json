@@ -1,0 +1,6 @@
+{
+    "ports" : [
+        "COM10",
+        "localhost:30300"
+    ]
+}

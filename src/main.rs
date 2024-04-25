@@ -4,10 +4,11 @@ mod service;
 mod io;
 
 fn main() -> Result<()>{
-    let provider = service::provider::new();
 
-    provider.init();
-    provider.run();
-
+    let mut service = service::provider::new();
+    
+    service.init();
+    service.run();
+        
     Ok(())
 }
