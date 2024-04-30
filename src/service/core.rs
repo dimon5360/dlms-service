@@ -1,6 +1,5 @@
 
 use log::debug;
-
 use crate::io;
 
 pub trait CoreInterface {
@@ -17,6 +16,7 @@ impl CoreInterface for Core {
         debug!("init service core");
         self._io.init();
     }
+    
     fn run(&self) {
         debug!("run service core");
 
@@ -26,7 +26,7 @@ impl CoreInterface for Core {
     }
 }
 
-pub fn new(io: io::tcp::Tcp) -> Box<dyn CoreInterface> {
+pub fn new(io: io::tcp::Tcp) -> Box<dyn CoreInterface + Sync + Send> {
     debug!("new application core instance");
     return Box::new(Core {
         _io: io,
