@@ -22,6 +22,11 @@ fn version() {
     println !("{}", version);
 }
 
+/// TODO:
+/// 1. implement service state struct
+/// 2. keep dlms service in state
+/// 3. add storage to keep running devices
+
 #[rocket::main]
 async fn main() -> Result<()> {
 
