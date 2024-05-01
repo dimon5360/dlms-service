@@ -32,11 +32,13 @@ async fn main() -> Result<()> {
 
     version();
 
-    let service = dlms::provider::new_service();
+    let state = http::state::new(
+        dlms::provider::new_service()
+    );
 
     http::service::new()
         .init()
-        .manage(service as Box<dyn dlms::service::Interface>)
+        .manage(state as Box<dyn http::state::Interface>)
         .launch()
         .await.unwrap();
 

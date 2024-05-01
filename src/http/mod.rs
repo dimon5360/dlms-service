@@ -1,3 +1,4 @@
 
 pub mod service;
-mod device;
+pub mod state;
+mod endpoint;

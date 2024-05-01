@@ -13,7 +13,12 @@ impl Tcp {
     }
 
     pub fn run(&self) {
-        thread::sleep(Duration::from_secs(5));        
+        println!("io running...");
+        thread::sleep(Duration::from_secs(5));
+    }
+
+    pub fn stop(&self) {
+        println!("io stopping...")
     }
 }
 
