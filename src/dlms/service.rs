@@ -4,9 +4,9 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::thread::JoinHandle;
 
-use crate::service::core;
+use crate::dlms::core;
 
-pub trait Interface {
+pub trait Interface: Send + Sync {
     fn run(&self, core: Box<dyn core::CoreInterface + Sync + Send>) -> JoinHandle<()>;
 }
 
@@ -30,7 +30,7 @@ impl Interface for Instance {
     }
 }
 
-pub fn new() -> Box<dyn Interface> {
+pub fn new() -> Box<dyn Interface + Sync + Send> {
     debug!("new application instance");
 
     return Box::new(Instance {})

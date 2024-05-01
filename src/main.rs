@@ -1,9 +1,12 @@
+
+#[macro_use] extern crate rocket;
+
 use std::io::Result;
-use std::thread::JoinHandle;
 use dotenv::dotenv;
 
-mod service;
+mod dlms;
 mod io;
+mod http;
 
 fn version() {
     dotenv().ok();
@@ -19,21 +22,18 @@ fn version() {
     println !("{}", version);
 }
 
-fn main() -> Result<()>{
+#[rocket::main]
+async fn main() -> Result<()> {
 
     version();
 
-    let provider = service::provider::new();
-    let service = provider.init();
+    let service = dlms::provider::new_service();
 
-    let mut threads = Vec::<JoinHandle<()>>::new();
-
-    threads.push(service.run(provider.core("localhost:40400")));
-    threads.push(service.run(provider.core("localhost:40401")));
-
-    for t in threads {
-        t.join().unwrap();
-    }
+    http::service::new()
+        .init()
+        .manage(service as Box<dyn dlms::service::Interface>)
+        .launch()
+        .await.unwrap();
 
     Ok(())
 }
